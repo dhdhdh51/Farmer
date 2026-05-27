@@ -24,16 +24,14 @@ jobs:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
       - name: Create key.properties
         run: |
-          test -n "${{ secrets.ANDROID_KEY_PROPERTIES }}"
-          printf %s "${{ secrets.ANDROID_KEY_PROPERTIES }}" > apps/farmer_app/android/key.properties
+          cat > apps/farmer_app/android/key.properties <<PROPS
+          storeFile=release.keystore
+          storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          PROPS
       - name: Build release APK
         run: cd apps/farmer_app && flutter build apk --release
-        env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          ANDROID_KEYSTORE_PATH: release.keystore
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
