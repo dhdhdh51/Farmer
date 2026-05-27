@@ -10,7 +10,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
-def signingValue(String propertyKey, String envKey) {
+def signingValue = { String propertyKey, String envKey ->
     def fromProps = keystoreProperties.getProperty(propertyKey)
     if (fromProps != null && fromProps.trim()) return fromProps
     return System.getenv(envKey)
