@@ -18,11 +18,16 @@ jobs:
         run: cd apps/farmer_app && flutter test
       - name: Decode keystore
         run: |
+          test -n "$ANDROID_KEYSTORE_BASE64"
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > apps/farmer_app/android/app/release.keystore
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
       - name: Build release APK
         run: cd apps/farmer_app && flutter build apk --release
+        env:
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
