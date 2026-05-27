@@ -81,14 +81,15 @@ class FarmerHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uid = FirebaseAuth.instance.currentUser!.uid;
-    final fields = FirebaseFirestore.instance.collection('fields').where('ownerId', isEqualTo: uid);
+    final fieldsCollection = FirebaseFirestore.instance.collection('fields');
+    final fields = fieldsCollection.where('ownerId', isEqualTo: uid);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kisan Ledger Dashboard'),
         actions: [IconButton(onPressed: () => FirebaseAuth.instance.signOut(), icon: const Icon(Icons.logout))],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => fields.add({
+        onPressed: () => fieldsCollection.add({
           'ownerId': uid,
           'name': 'New Field',
           'village': 'Unknown',
