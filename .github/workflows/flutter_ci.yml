@@ -1,0 +1,30 @@
+name: Flutter CI
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+      - name: Farmer dependencies
+        run: cd apps/farmer_app && flutter pub get
+      - name: Farmer analyze
+        run: cd apps/farmer_app && flutter analyze
+      - name: Farmer test
+        run: cd apps/farmer_app && flutter test
+      - name: Decode keystore
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > apps/farmer_app/android/app/release.keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      - name: Build release APK
+        run: cd apps/farmer_app && flutter build apk --release
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: kisan-ledger-apk
+          path: apps/farmer_app/build/app/outputs/flutter-apk/app-release.apk
