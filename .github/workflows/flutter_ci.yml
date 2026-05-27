@@ -19,12 +19,13 @@ jobs:
       - name: Decode keystore
         run: |
           test -n "$ANDROID_KEYSTORE_BASE64"
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > apps/farmer_app/android/app/release.keystore
+          printf %s "$ANDROID_KEYSTORE_BASE64" | base64 -d > apps/farmer_app/android/app/release.keystore
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
       - name: Create key.properties
         run: |
-          echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > apps/farmer_app/android/key.properties
+          test -n "${{ secrets.ANDROID_KEY_PROPERTIES }}"
+          printf %s "${{ secrets.ANDROID_KEY_PROPERTIES }}" > apps/farmer_app/android/key.properties
       - name: Build release APK
         run: cd apps/farmer_app && flutter build apk --release
         env:
