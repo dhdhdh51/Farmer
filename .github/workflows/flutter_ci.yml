@@ -22,13 +22,9 @@ jobs:
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > apps/farmer_app/android/app/release.keystore
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-      - name: Auto-generate key.properties (optional)
+      - name: Create key.properties
         run: |
-          if [ -n "$ANDROID_KEY_PROPERTIES" ]; then
-            printf "%s\n" "$ANDROID_KEY_PROPERTIES" > apps/farmer_app/android/key.properties
-          fi
-        env:
-          ANDROID_KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
+          echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > apps/farmer_app/android/key.properties
       - name: Build release APK
         run: cd apps/farmer_app && flutter build apk --release
         env:
