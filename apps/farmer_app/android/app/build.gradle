@@ -4,6 +4,18 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+def signingValue(String propertyKey, String envKey) {
+    def fromProps = keystoreProperties.getProperty(propertyKey)
+    if (fromProps != null && fromProps.trim()) return fromProps
+    return System.getenv(envKey)
+}
+
 android {
     namespace "com.kisanledger.farmer"
     compileSdk 35
@@ -29,10 +41,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('release.keystore')
-            storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD')
-            keyAlias System.getenv('ANDROID_KEY_ALIAS')
-            keyPassword System.getenv('ANDROID_KEY_PASSWORD')
+            storeFile file(signingValue('storeFile', 'ANDROID_KEYSTORE_PATH') ?: 'release.keystore')
+            storePassword signingValue('storePassword', 'ANDROID_KEYSTORE_PASSWORD')
+            keyAlias signingValue('keyAlias', 'ANDROID_KEY_ALIAS')
+            keyPassword signingValue('keyPassword', 'ANDROID_KEY_PASSWORD')
         }
     }
 
