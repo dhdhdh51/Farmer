@@ -1,0 +1,12 @@
+# Firestore Collections
+- users: {name, email, role[farmer|admin|super_admin], blocked, language, createdAt}
+- fields: {ownerId, name, village, area, unit, boundaryPoints[], gpsCenter, imageUrls[], createdAt}
+- crops: {ownerId, fieldId, cropName, variety, sowingDate, harvestDate, stage, notes}
+- activities: {ownerId, fieldId, cropId, type, date, quantity, unit, cost, notes, photoUrls[]}
+- expenses: {ownerId, fieldId, category, amount, date, notes}
+- irrigation_logs: {ownerId, fieldId, date, hours, source, quantityEstimate, reminderAt}
+- notifications: {title, body, target[broadcast|uid], targetUid?, type, createdAt}
+- mandi_prices: {crop, market, unit, price, effectiveDate}
+- farming_tips: {title, body, season, imageUrl, createdAt}
+- government_schemes: {name, description, imageUrl, eligibility, link}
+- support_tickets: {ownerId, subject, message, status, adminReply, createdAt, updatedAt}
