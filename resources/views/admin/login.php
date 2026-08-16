@@ -1,0 +1,1 @@
+<div class="auth-card"><h1>Admin Login</h1><form method="post"><?=csrf_field()?><input class="form-control" name="email" type="email" placeholder="Email"><input class="form-control" name="password" type="password" placeholder="Password"><button class="btn btn-dark w-100">Login</button></form></div>
