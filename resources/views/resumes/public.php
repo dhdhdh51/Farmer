@@ -1,0 +1,1 @@
+<div class="container py-5"><article class="cv-preview mx-auto"><?php $c=json_decode($resume["content_json"],true) ?: []; ?><h1><?=e($c["personal"]["full_name"] ?? $resume["name"])?></h1><p><?=e($c["personal"]["title"] ?? "")?></p><h2>Summary</h2><p><?=e($c["summary"] ?? "")?></p></article></div>

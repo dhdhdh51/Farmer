@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^install(/.*)?$ install/index.php [L]
+RewriteRule ^$ public/index.php [L]
+RewriteRule ^(.*)$ public/$1 [L]

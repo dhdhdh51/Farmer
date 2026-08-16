@@ -1,0 +1,1 @@
+<div class="container py-5"><div class="panel"><h1><?=e($title)?></h1><p><?=e($content)?></p></div></div>

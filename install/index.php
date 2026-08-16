@@ -1,0 +1,1 @@
+<?php echo '<h1>CareerForge AI Installer</h1><ol><li>System requirements</li><li>Database configuration</li><li>Create admin account</li><li>Application settings</li><li>SMTP optional</li><li>Complete and lock installer</li></ol><p>Create config/config.local.php and import database/schema.sql. Remove or lock this directory after setup.</p>'; 
